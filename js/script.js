@@ -1,3 +1,51 @@
+// The click events handlers need to be inside .ready function to work properly.
+$(document).ready(function(){
+	/* when the "Online" button is clicked, the code shows online users only */
+	$("#show-online").click(function() {
+		/* The users class is emptied. */
+		$(".users").html("");
+		/* The loop checks for each user in results, if the user isn't offline and
+		if the user's account is not closed, the info are appended to the page. */
+		for (var i = 0; i < results.length; i++){
+			if (results[i].status != "Account closed" && results[i].status != "Offline"){
+				online(results[i].photo, results[i].link, results[i].user, results[i].status);
+			}
+		}
+	})
+	/* when the "Offline" button is clicked, the code shows offline users and the
+	users with closed accounts */
+	$("#show-offline").click(function() {
+		/* The users class is emptied. */
+		$(".users").html("");
+		/* The loop checks the status of each user */
+		for (var i = 0; i < results.length; i++){
+			/* If the account is closed, the closed function is called to append user's info */
+			if (results[i].status == "Account closed"){
+				closed(results[i].user);
+			/* If the user is offline, offline function is called to append user's info */
+			} else if (results[i].status == "Offline") {
+				offline(results[i].user);
+			}
+		}		
+	})
+	/* When All button is clicked, all users are displayed on the page. */
+	$("#show-all").click(function() {
+		/* The users class is emptied. */
+		$(".users").html("");
+		for (var i = 0; i < results.length; i++){
+			/* If the account is closed, the closed function is called to append user's info */
+			if (results[i].status == "Account closed"){
+				closed(results[i].user);
+			/* If the user is offline, offline function is called to append user's info */
+			} else if (results[i].status == "Offline") {
+				offline(results[i].user);
+			} else {
+				online(results[i].photo, results[i].link, results[i].user, results[i].status);
+			}			
+		}	
+	})
+})
+
 // The variable users has all the users for which the code will check he status.
 var users = ["freecodecamp", "storbeck", "terakilobyte", "habathcx","RobotCaleb",
 "thomasballinger","noobs2ninjas","beohoff", "comster404", "brunofin", "esl_sc2",
