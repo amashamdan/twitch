@@ -26,25 +26,43 @@ function getInfo(url, i) {
 	  				"status": "Online: " + data["stream"]["channel"]["status"],
 	  				"link": data["stream"]["channel"]["url"],
 	  				"photo": data["stream"]["channel"]["logo"]});
-	  	$(".users").append("<div class='user'><img class='photo' src=" + data["stream"]["channel"]["logo"] +
-	  						"><a class='link' target='blank' href=" + data["stream"]["channel"]["url"] +
-	  						">" + users[i] + "</a>" + "Online: " + data["stream"]["channel"]["status"] +
-	  						"</div>");
+	  	/* A call to the function online to append the user's info if the user is online */
+	  	online(data["stream"]["channel"]["logo"], data["stream"]["channel"]["url"],
+	  			users[i], data["stream"]["channel"]["status"]);
 	  /* If the account is closed, the following executes. */
 	  } else if (data.error) {
 	  	results.push({"user": users[i], 
 	  				"status": "Account closed",
 	  				"link": ""});
-	  	$(".users").append("<div class='user'><div class='no-photo'>NA</div>" + users[i] + " Account closed</div>"); 
+	  	/* A call to the function closed to append the user's info if the user's account is closed */
+	  	closed(users[i]);
 	  } else {
 	  	/* If the user exists but doesn't stream, the following executes. */
 	  	results.push({"user": users[i], 
 	  				"status": "Offline",
 	  				"link": "https://secure.twitch.tv/" + users[i]});
-	  	$(".users").append("<div class='user'><div class='no-photo'>NA</div>" + 
-	  						"<a class='link' target='blank' href='https://secure.twitch.tv/" + users[i] +
-	  						"'>" + users[i] + "</a>" + "Offline</div>");
+	  	/* A call to the function offline to append the user's info if the user is offline */
+	  	offline(users[i]);
 	  }
 	});
 }
 
+/* This function appends the user's info when the user is online. */
+function online(img, url, user, status){
+	$(".users").append("<div class='user'><img class='photo' src=" + img +
+	  					"><a class='link' target='blank' href=" + url +">" + user + 
+	  					"</a>" + "Online: " + status + "</div>");
+}
+
+/* This function appends the user's info when the user's account is closed'. */
+function closed(user){
+	$(".users").append("<div class='user'><div class='no-photo'>NA</div>" + 
+		user + " Account closed</div>"); 
+}
+
+/* This function appends the user's info when the user is offline. */
+function offline(user){
+	$(".users").append("<div class='user'><div class='no-photo'>NA</div>" + 
+	  					"<a class='link' target='blank' href='https://secure.twitch.tv/" + user +
+	  					"'>" + user + "</a>" + "Offline</div>");
+}
