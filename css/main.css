@@ -1,6 +1,61 @@
+body {
+	font-family: 'Lato', sans-serif;
+	background-color: #246868;
+}
+
+.container {
+	margin: 0 auto;
+	width: 100%;
+	max-width: 700px;
+	background-color: #246868;
+}
+
+.header {
+	text-align: center;
+	color: white;
+}
+
+.status-button {
+	width: 90px;
+	height: 25px;
+	background-color: white;
+	border: 1px solid white;
+	border-radius: 12.5px;
+	color: #246868;
+	margin: 0 5px 0 5px;
+}
+
+#show-all {
+	color: white;
+	background-color: #246868;
+}
+
+.status-button:hover {
+	cursor: pointer;
+	background-color: #6A9D9D;
+}
+
+.user {
+	background-color: white;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.logo {
+	width: 30%;
+}
+
+.user-info {
+	width: 70%;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
 .photo {
 	width: 50px;
 	border-radius: 25px;
+	margin: 5px; 
 }
 
 .no-photo {
@@ -12,4 +67,35 @@
 .user {
 	border: 1px solid green;
 	margin-top: 20px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.username {
+	width: 100%;
+	font-size: 0.9em;
+}
+
+.username a {
+	color: #246868;
+}
+
+.status {
+	width: 100%;
+	color: gray;
+	font-size: 0.9em;
+}
+
+.author {
+	width: 50%;
+	font-size: 0.8em;
+	color: white;
+}
+
+.author p {
+	margin: 2px;	
+}
+
+.author a {
+	color: white;
 }

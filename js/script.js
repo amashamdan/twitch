@@ -33,6 +33,11 @@ $(document).ready(function(){
 			appendUsers(results[i].photo, results[i].link, results[i].user, results[i].status);			
 		}	
 	})
+	/* Invert the color of the clicked filter button */
+	$(".status-button").click(function() {
+		$(this).css({"color": "white", "backgroundColor": "#246868"});
+		$(this).siblings().css({"color": "#246868", "backgroundColor": "white"});
+	})
 })
 
 // The variable users has all the users for which the code will check he status.
@@ -94,7 +99,7 @@ function getInfo(url, i) {
 
 /* This function appends the user's info when the user is online. */
 function appendUsers(img, url, user, status){
-	$(".users").append("<div class='user'><img class='photo' src=" + img +
-	  					"><a class='link' target='blank' href=" + url +">" + user + 
-	  					"</a>" + " " + status + "</div>");
+	$(".users").append("<div class='user'><div class'logo'><img class='photo' src=" + img +
+	  					"></img></div><div class='user-info'><div class='username'><a class='link' target='blank' href=" +
+	  					url +">" + user + "</a></div><div class='status'>" + status + "</div></div></div>");
 }
