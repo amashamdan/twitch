@@ -3,6 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>TwitchTV</title>
+	<!-- Google fonts -->
+	<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/main.css">
 	<script src="js/jquery.min.js"></script>
 	<script src="js/script.js"></script>
@@ -13,9 +15,11 @@
 		<div class="header">
 			<h1 class="title">Twitch Streamers</h1>
 			<!-- Three button to filter the streamers -->
-			<button class="status-button" id="show-all">All</button>
-			<button class="status-button" id="show-online">Online</button>
-			<button class="status-button" id="show-offline">Offline</button>
+			<div class="buttons">
+				<button class="status-button" id="show-all">All</button>
+				<button class="status-button" id="show-online">Online</button>
+				<button class="status-button" id="show-offline">Offline</button>
+			</div>
 		</div>
 		<!-- The users div show the users with their status, and streaming information. -->
 		<div class="users">
