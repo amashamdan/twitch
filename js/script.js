@@ -8,7 +8,7 @@ $(document).ready(function(){
 		if the user's account is not closed, the info are appended to the page. */
 		for (var i = 0; i < results.length; i++){
 			if (results[i].status != "Account closed" && results[i].status != "Offline"){
-				online(results[i].photo, results[i].link, results[i].user, results[i].status);
+				appendUsers(results[i].photo, results[i].link, results[i].user, results[i].status);
 			}
 		}
 	})
@@ -19,12 +19,9 @@ $(document).ready(function(){
 		$(".users").html("");
 		/* The loop checks the status of each user */
 		for (var i = 0; i < results.length; i++){
-			/* If the account is closed, the closed function is called to append user's info */
-			if (results[i].status == "Account closed"){
-				closed(results[i].user);
-			/* If the user is offline, offline function is called to append user's info */
-			} else if (results[i].status == "Offline") {
-				offline(results[i].user);
+			/* If the account is closed or offline, appendUser is called to append user's info */
+			if (results[i].status == "Account closed" || results[i].status == "Offline"){
+				appendUsers(results[i].photo, results[i].link, results[i].user, results[i].status);
 			}
 		}		
 	})
@@ -33,15 +30,7 @@ $(document).ready(function(){
 		/* The users class is emptied. */
 		$(".users").html("");
 		for (var i = 0; i < results.length; i++){
-			/* If the account is closed, the closed function is called to append user's info */
-			if (results[i].status == "Account closed"){
-				closed(results[i].user);
-			/* If the user is offline, offline function is called to append user's info */
-			} else if (results[i].status == "Offline") {
-				offline(results[i].user);
-			} else {
-				online(results[i].photo, results[i].link, results[i].user, results[i].status);
-			}			
+			appendUsers(results[i].photo, results[i].link, results[i].user, results[i].status);			
 		}	
 	})
 })
@@ -53,6 +42,10 @@ var users = ["freecodecamp", "storbeck", "terakilobyte", "habathcx","RobotCaleb"
 
 // The array results will store information about all users after a response is received.
 var results = [];
+
+
+/* A placeholder image to show for offline users and the users with closed accounts. */
+var noImageUrl = "http://i446.photobucket.com/albums/qq186/amashamdan2/Untitled_zpssgvkrhao.jpg";
 
 // The loop generates an api url for each user and calls getInfo function with the generated url.
 for (var i = 0; i < users.length; i++) {
@@ -74,43 +67,34 @@ function getInfo(url, i) {
 	  				"status": "Online: " + data["stream"]["channel"]["status"],
 	  				"link": data["stream"]["channel"]["url"],
 	  				"photo": data["stream"]["channel"]["logo"]});
-	  	/* A call to the function online to append the user's info if the user is online */
-	  	online(data["stream"]["channel"]["logo"], data["stream"]["channel"]["url"],
-	  			users[i], data["stream"]["channel"]["status"]);
+	  	/* A call to the function appendUsers to append the user's info to the page. */
+	  	appendUsers(data["stream"]["channel"]["logo"], data["stream"]["channel"]["url"],
+	  			users[i], "Online: " + data["stream"]["channel"]["status"]);
 	  /* If the account is closed, the following executes. */
 	  } else if (data.error) {
 	  	results.push({"user": users[i], 
 	  				"status": "Account closed",
-	  				"link": ""});
-	  	/* A call to the function closed to append the user's info if the user's account is closed */
-	  	closed(users[i]);
+	  				/* The link below is given the shown value so when the link is clicked,
+	  				it won't do anything. an empty href "" will reload the page. */
+	  				"link": "javascript:;",
+	  				"photo": noImageUrl});
+	  	/* A call to the function appendUsers to append the user's info to the page. */
+	  	appendUsers(noImageUrl, "javascript:;", users[i], "Account closed");
 	  } else {
 	  	/* If the user exists but doesn't stream, the following executes. */
 	  	results.push({"user": users[i], 
 	  				"status": "Offline",
-	  				"link": "https://secure.twitch.tv/" + users[i]});
-	  	/* A call to the function offline to append the user's info if the user is offline */
-	  	offline(users[i]);
+	  				"link": "https://secure.twitch.tv/" + users[i],
+	  				"photo": noImageUrl});
+	  	/* A call to the function appendUsers to append the user's info to the page. */
+	  	appendUsers(noImageUrl, "https://secure.twitch.tv/" + users[i], users[i], "Offline");
 	  }
 	});
 }
 
 /* This function appends the user's info when the user is online. */
-function online(img, url, user, status){
+function appendUsers(img, url, user, status){
 	$(".users").append("<div class='user'><img class='photo' src=" + img +
 	  					"><a class='link' target='blank' href=" + url +">" + user + 
-	  					"</a>" + "Online: " + status + "</div>");
-}
-
-/* This function appends the user's info when the user's account is closed'. */
-function closed(user){
-	$(".users").append("<div class='user'><div class='no-photo'>NA</div>" + 
-		user + " Account closed</div>"); 
-}
-
-/* This function appends the user's info when the user is offline. */
-function offline(user){
-	$(".users").append("<div class='user'><div class='no-photo'>NA</div>" + 
-	  					"<a class='link' target='blank' href='https://secure.twitch.tv/" + user +
-	  					"'>" + user + "</a>" + "Offline</div>");
+	  					"</a>" + " " + status + "</div>");
 }
